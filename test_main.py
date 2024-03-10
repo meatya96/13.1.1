@@ -20,8 +20,12 @@ def product_test():
     return Product(data_product['name'], data_product['description'], data_product['price'], data_product['amount'])
 
 
+def test_products_amount(category_test):
+    expected_products_amount = 3
+    assert category_test.products_amount == expected_products_amount
+
 def test_category_amount(category_test):
-    expected_category_amount = 1
+    expected_category_amount = 2
     assert category_test.category_amount == expected_category_amount
 
 
@@ -40,9 +44,7 @@ def test_category_products(category_test):
     assert category_test.products == expected_item
 
 
-def test_products_amount(category_test):
-    expected_products_amount = 3
-    assert category_test.products_amount == expected_products_amount
+
 
 
 
