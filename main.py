@@ -26,6 +26,12 @@ class Category():
             product_list.append(f"{product['name']}, {product['price']} руб. Остаток: {product['amount']} шт.")
         return product_list
 
+    def __len__(self):
+        return len(self.products)
+
+    def __str__(self):
+        return f"{self.name}, Количество продуктов: {len(self)} шт."
+
 
 data_category = {'name': 'Шоколад',
                  'description': 'Сладкий',
@@ -42,8 +48,6 @@ data_category = {'name': 'Шоколад',
                                'price': 60,
                                'amount': 12}]}
 category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
-
-print(category_1.products)
 
 
 class Product():
@@ -72,3 +76,18 @@ class Product():
             print("Ошибка: Цена должна быть больше нуля.")
         else:
             self._price = value
+
+    def __add__(self, other):
+        total_price = self._price * self.amount + other._price * other.amount
+        return total_price
+
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.amount} шт."
+
+
+print(len(category_1))
+product_a = Product("Шоколад", "Очень вкусный", 100, 10)
+product_b = Product("Шоколад", "Очень вкусный", 200, 2)
+
+total_product = product_a + product_b
+print(total_product)
