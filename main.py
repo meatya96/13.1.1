@@ -20,19 +20,10 @@ class Category():
         self.__class__.category_amount += 1
 
     def add_product(self, product):
-        if isinstance(product,Product) == False:
+        if isinstance(product,Product):
+            self.__products.append(product)
+        else:
             raise TypeError('Можно добавить только наследника класса Product')
-        if product.amount == 0:
-            raise ValueError('Товар с нулевым количеством не может быть добавлен')
-        self.__products.append(product)
-    def avg_price(self):
-        try:
-            prices = []
-            for prod in self.__products:
-                prices.append(prod.price)
-            return sum(prices)/len(prices)
-        except ZeroDivisionError:
-            return 0
 
 
     @property
@@ -128,3 +119,31 @@ class Grass(Product):
         return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.amount}, {self.country}, {self.growth_period}, {self.color})"
 
 
+'''
+product_a = Product("Шоколад", "Очень вкусный", 100, 10)
+product_b = Product("Шоколад", "Очень вкусный", 200, 2)
+
+data_category = {'name': 'Шоколад',
+                 'description': 'Сладкий',
+                 'products': [product_a,
+                              product_b]}
+category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
+print(category_1.products)
+'''
+
+"""
+product_a = Smartphone("Шоколад", "Очень вкусный", 100, 10, 'lol','kek','lol','kk')
+product_aa = Smartphone("Шоколад", "Очень вкусный!!!w", 100, 10, 'lol','kek','lol','kk')
+product_b = Grass("Шоколад", "Очень вкусный", 200, 2, 'lol','kek','lol')
+
+print(product_a)
+print(product_b)
+data_category = {'name': 'Шоколад',
+                 'description': 'Сладкий',
+                 'products': [product_a,
+                              product_b]}
+category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
+
+
+print(repr(category_1))
+"""
