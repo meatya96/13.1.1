@@ -2,27 +2,18 @@ from main import Product, Category
 import pytest
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def category_test():
     data_category = {'name': 'Шоколад',
                      'description': 'Сладкий',
-                     'products': [{'name': 'mars',
-                                   'description': 'Очень вкусный',
-                                   'price': 50,
-                                   'amount': 10},
-                                  {'name': 'bounty',
-                                   'description': 'Очень вкусный',
-                                   'price': 55,
-                                   'amount': 7},
-                                  {'name': 'snickers',
-                                   'description': 'Очень вкусный',
-                                   'price': 60,
-                                   'amount': 12}]}
+                     'products': [Product('mars','Очень вкусный', 50,10),
+                                  Product('bounty', 'Очень вкусный', 55,7),
+                                  Product('snickers','Очень вкусный',60,12)]}
 
     return Category(data_category['name'], data_category['description'], data_category['products'])
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def product_test():
     data_product = {'name': 'mars',
                     'description': 'Очень вкусный',
@@ -31,13 +22,11 @@ def product_test():
     return Product(data_product['name'], data_product['description'], data_product['price'], data_product['amount'])
 
 
-def test_products_amount(category_test):
-    expected_products_amount = 6
-    assert category_test.products_amount == expected_products_amount
+
 
 
 def test_category_amount(category_test):
-    expected_category_amount = 3
+    expected_category_amount = 1
     assert category_test.category_amount == expected_category_amount
 
 
@@ -55,7 +44,9 @@ def test_category_products(category_test):
     expected_item = ['mars, 50 руб. Остаток: 10 шт.', 'bounty, 55 руб. Остаток: 7 шт.',
                      'snickers, 60 руб. Остаток: 12 шт.']
     assert category_test.products == expected_item
-
+def test_products_amount(category_test):
+    expected_products_amount = 3
+    assert category_test.products_amount == expected_products_amount
 
 def test_product_name(product_test):
     expected_product_name = 'mars'

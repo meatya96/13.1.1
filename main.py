@@ -11,7 +11,7 @@ class Category():
         self.__products = products
         products_name = []
         for item in self.__products:
-            products_name.append(item['name'])
+            products_name.append(item.name)
         set_products = set(products_name)
         self.__class__.products_amount += len(set_products)
         self.__class__.category_amount += 1
@@ -23,7 +23,7 @@ class Category():
     def products(self):
         product_list = []
         for product in self.__products:
-            product_list.append(f"{product['name']}, {product['price']} руб. Остаток: {product['amount']} шт.")
+            product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.amount} шт.")
         return product_list
 
     def __len__(self):
@@ -33,21 +33,6 @@ class Category():
         return f"{self.name}, Количество продуктов: {len(self)} шт."
 
 
-data_category = {'name': 'Шоколад',
-                 'description': 'Сладкий',
-                 'products': [{'name': 'mars',
-                               'description': 'Очень вкусный',
-                               'price': 50,
-                               'amount': 10},
-                              {'name': 'bounty',
-                               'description': 'Очень вкусный',
-                               'price': 55,
-                               'amount': 7},
-                              {'name': 'snickers',
-                               'description': 'Очень вкусный',
-                               'price': 60,
-                               'amount': 12}]}
-category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
 
 
 class Product():
@@ -84,10 +69,14 @@ class Product():
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.amount} шт."
 
-
-print(len(category_1))
+'''
 product_a = Product("Шоколад", "Очень вкусный", 100, 10)
 product_b = Product("Шоколад", "Очень вкусный", 200, 2)
 
-total_product = product_a + product_b
-print(total_product)
+data_category = {'name': 'Шоколад',
+                 'description': 'Сладкий',
+                 'products': [product_a,
+                              product_b]}
+category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
+print(category_1.products)
+'''
