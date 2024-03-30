@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 class Category():
     name: str
     description: str
@@ -17,10 +20,19 @@ class Category():
         self.__class__.category_amount += 1
 
     def add_product(self, product):
-        if isinstance(product,Product):
-            self.__products.append(product)
-        else:
+        if isinstance(product,Product) == False:
             raise TypeError('Можно добавить только наследника класса Product')
+        if product.amount == 0:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+        self.__products.append(product)
+    def avg_price(self):
+        try:
+            prices = []
+            for prod in self.__products:
+                prices.append(prod.price)
+            return sum(prices)/len(prices)
+        except ZeroDivisionError:
+            return 0
 
 
     @property
@@ -38,8 +50,16 @@ class Category():
 
 
 
+class AbstractProduct(ABC):
+    @abstractmethod
+    def __add__(self):
+        pass
 
-class Product():
+class Mixin():
+    def print_console(self):
+        print(repr(self))
+
+class Product(AbstractProduct,Mixin):
     name: str
     description: str
     _price: float
@@ -50,6 +70,7 @@ class Product():
         self.description = description
         self._price = price
         self.amount = amount
+        self.print_console()
 
     @staticmethod
     def create_product(name, description, price, amount):
@@ -76,6 +97,9 @@ class Product():
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.amount} шт."
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.amount})"
+
 
 class Smartphone(Product):
     perfomance: str
@@ -83,49 +107,24 @@ class Smartphone(Product):
     osu: str
     color: str
     def __init__(self, name, description, price, amount, perfomance, model, osu, color):
-        super().__init__(name, description, price, amount)
         self.perfomance = perfomance
         self.model = model
         self.osu = osu
         self.color = color
-
+        super().__init__(name, description, price, amount)
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.amount}, {self.perfomance}, {self.model}, {self.osu}, {self.color} )"
 
 class Grass(Product):
     country: str
     growth_period: str
     color: str
     def __init__(self, name, description, price, amount, country,growth_period, color):
-        super().__init__(name, description, price, amount)
         self.country = country
         self.growth_period = growth_period
         self.color = color
+        super().__init__(name, description, price, amount)
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.amount}, {self.country}, {self.growth_period}, {self.color})"
 
 
-'''
-product_a = Product("Шоколад", "Очень вкусный", 100, 10)
-product_b = Product("Шоколад", "Очень вкусный", 200, 2)
-
-data_category = {'name': 'Шоколад',
-                 'description': 'Сладкий',
-                 'products': [product_a,
-                              product_b]}
-category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
-print(category_1.products)
-'''
-
-'''
-product_a = Smartphone("Шоколад", "Очень вкусный", 100, 10, 'lol','kek','lol','kk')
-product_aa = Smartphone("Шоколад", "Очень вкусный!!!w", 100, 10, 'lol','kek','lol','kk')
-product_b = Grass("Шоколад", "Очень вкусный", 200, 2, 'lol','kek','lol')
-
-print(product_a)
-print(product_b)
-data_category = {'name': 'Шоколад',
-                 'description': 'Сладкий',
-                 'products': [product_a,
-                              product_b]}
-category_1 = Category(data_category['name'], data_category['description'], data_category['products'])
-category_1.add_product(category_1)
-
-print(category_1)
-'''
