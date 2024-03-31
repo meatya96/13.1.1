@@ -39,6 +39,8 @@ class Category():
     def __str__(self):
         return f"{self.name}, Количество продуктов: {len(self)} шт."
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.products}', '{self.description}')"
 
 
 class AbstractProduct(ABC):
